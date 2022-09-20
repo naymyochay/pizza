@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promises & async, await</title>
+</head>
+<body>
+
+
+
+    <script>
+
+        let add1000 = _ => {
+            let result = 0;
+
+            for(let i = 1; i <= 1000; i ++) result += i;
+
+            return result;
+        }
+        
+        let add100later = _ => {
+            return new Promise( (resolve, reject) => {
+                let result = add1000();
+                if(result) resolve(result);
+                else reject();
+            });
+        }
+
+        //console.log("Some process");
+
+        //add100later(). then( result => console.log(result)).catch(() => console.error("Error"));
+
+        //console.log("More Process");
+
+        let add100latr = async _ => {
+            let result = await add1000();
+            console.log(result);
+        }
+
+        //console.log("Some Process");
+        //add100latr();
+        //console.log("More Process");
+
+        fetch("http://127.0.0.1:5500/covid.json")
+        .then(res => res.json())
+        .then(data => {
+            const global = data.Global;
+            const allCountries = data.Countries;
+            const myanmar = allCountries.find(c => c.Country === "Myanmar")
+
+            console.log("Global:", global, "Myanmar:", myanmar)
+        });
+        
+    </script>
+    
+</body>
+</html>
